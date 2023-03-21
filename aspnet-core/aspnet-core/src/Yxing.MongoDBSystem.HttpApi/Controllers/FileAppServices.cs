@@ -30,7 +30,7 @@ namespace Yxing.MongoDBSystem.Controllers
         [HttpGet]
         public FileStreamResult DownLoad(string collectionName)
         {
-             return fileAppServices.DownLoad(collectionName); 
+            return fileAppServices.DownLoad(collectionName);
         }
         [HttpGet]
         public List<Dictionary<string, List<Dictionary<string, string>>>> QueryAllColletionInfo()
@@ -41,7 +41,7 @@ namespace Yxing.MongoDBSystem.Controllers
         [HttpPost]
         public async Task Update(string collectionName, string measuringPointName, [FromBody] List<Dictionary<string, string>> data)
         {
-             fileAppServices.Update(collectionName, measuringPointName, data);
+            fileAppServices.Update(collectionName, measuringPointName, data);
         }
 
         [HttpPost]
