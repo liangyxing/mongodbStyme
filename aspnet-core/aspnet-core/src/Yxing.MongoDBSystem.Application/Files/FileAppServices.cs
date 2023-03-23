@@ -44,6 +44,11 @@ namespace Yxing.MongoDBSystem.Files
             await Mongo.Update(collectionName, measuringPointName, data);
         }
 
+        public bool UpdateFileInfo(string collectionName, string type, string describe)
+        {
+            return Mongo.UpdateFileInfo(collectionName, type, describe);
+        }
+
         public bool Upload(IFormFile file, string collectionName, string type, string describe)
         {
             return Mongo.InsertByMongoDB(file, collectionName, type, describe);

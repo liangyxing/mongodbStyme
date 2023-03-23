@@ -45,6 +45,12 @@ namespace Yxing.MongoDBSystem.Controllers
         }
 
         [HttpPost]
+        public bool UpdateFileInfo(string collectionName,  string type, string describe)
+        {
+            return fileAppServices.UpdateFileInfo(collectionName,type, describe);   
+        }
+
+        [HttpPost]
         public bool Upload(IFormFile file, string collectionName, string type, string describe)
         {
             return fileAppServices.Upload(file, collectionName, type, describe);

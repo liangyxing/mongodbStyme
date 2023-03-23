@@ -278,6 +278,26 @@ namespace Utilities.MongoDBLib
             }
         }
 
+
+        public bool UpdateFileInfo(string collectionName, string type ,string describe)
+        {
+            var collection = database.GetCollection<BsonDocument>(collectionName);
+
+            var filter = Builders<BsonDocument>.Filter.Exists("type");
+            var update= Builders<BsonDocument>.Update.Set("type",type).Set("describe",describe);
+
+            var result = collection.UpdateOne(filter, update);
+            if(result.ModifiedCount>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
     }
 
 

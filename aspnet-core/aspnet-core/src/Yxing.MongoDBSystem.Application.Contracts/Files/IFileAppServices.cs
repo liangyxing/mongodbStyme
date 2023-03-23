@@ -16,7 +16,7 @@ namespace Yxing.MongoDBSystem.Files
         bool Delete(string collectionName);
         List<Dictionary<string, List<Dictionary<string, string>>>> QueryAllColletionInfo();
 
-
+        bool UpdateFileInfo(string collectionName, string type, string describe);
 
 
 
