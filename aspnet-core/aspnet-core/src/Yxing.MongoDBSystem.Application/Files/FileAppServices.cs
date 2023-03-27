@@ -28,7 +28,7 @@ namespace Yxing.MongoDBSystem.Files
 
         public FileStreamResult DownLoad(string collectionName)
         {
-            var res= Mongo.WriteByWeb(collectionName);
+            var res= Mongo.DownloadByWeb(collectionName);
             
             return res;
         }

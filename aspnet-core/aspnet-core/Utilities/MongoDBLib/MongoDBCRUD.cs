@@ -11,20 +11,11 @@ namespace Utilities.MongoDBLib
 {
     public class MongoDBCRUD
     {
-        //string connectionString = "mongodb://root:634889443@47.96.136.34:27017";
-        //string databaseName = "FileSystem";
-        //string collectionName = "measure21";
+
 
         MongoClient client;
         IMongoDatabase database;
         IMongoCollection<BsonDocument> collection;
-
-        //public MongoDBCRUD(string connectionString, string databaseName)
-        //{
-        //    client = new MongoClient("mongodb://root:634889443@47.96.136.34:27017");
-        //    database = client.GetDatabase(databaseName);
-
-        //} 
 
         public MongoDBCRUD()
         {
@@ -33,7 +24,7 @@ namespace Utilities.MongoDBLib
 
         }
 
-        public async Task<bool> WriteByCsvHelperAsync(string name, string collectionName)
+        public async Task<bool>DownloadyCsvHelperAsync(string name, string collectionName)
         {
             this.collection = database.GetCollection<BsonDocument>(collectionName);
             try
@@ -65,7 +56,7 @@ namespace Utilities.MongoDBLib
 
         }
 
-        public bool WriteByCsvHelper(string name, string collectionName)
+        public bool  DownloadCsvHelper(string name, string collectionName)
         {
             this.collection = database.GetCollection<BsonDocument>(collectionName);
             try
@@ -93,12 +84,11 @@ namespace Utilities.MongoDBLib
             catch (Exception ex)
             {
                 return false;
-
             }
 
         }
 
-        public FileStreamResult WriteByWeb(string collectionName)
+        public FileStreamResult DownloadByWeb(string collectionName)
         {
             var collection = database.GetCollection<BsonDocument>(collectionName);
 
@@ -134,9 +124,6 @@ namespace Utilities.MongoDBLib
             var collection = database.GetCollection<BsonDocument>(collectionName);
             try
             {
-                //web传过来的文件 public ActionResult Upload(HttpPostedFileBase file)
-                // using (var reader = new StreamReader(file.InputStream, Encoding.Default)) 
-                //using (var reader = new StreamReader(@"D:\Desktop\tetst\TF_measure_N.csv"))
                 using (var reader = new StreamReader(file.OpenReadStream()))
                 {
                     //读取CSV文件头
@@ -158,7 +145,7 @@ namespace Utilities.MongoDBLib
                     }
                 }
                 collection.InsertOne(new BsonDocument()
-                       {
+                    {
                             { "type",type },
                             {"describe",describe },
                             {"DateTime",DateTime.Now.ToString()}
@@ -176,9 +163,7 @@ namespace Utilities.MongoDBLib
         public List<Dictionary<string, List<Dictionary<string, string>>>> QueryAllColletionInfo()
         {
             var res = database.ListCollectionNames().ToList();
-            //List<List<string>> result = new List<List<string>>();
             List<Dictionary<string, List<Dictionary<string, string>>>> result = new List<Dictionary<string, List<Dictionary<string, string>>>>();
-            //List<string> strings = new List<string>();
             foreach (var item in res)
             {
                 var collection = database.GetCollection<BsonDocument>(item);
@@ -204,41 +189,6 @@ namespace Utilities.MongoDBLib
             return result;
         }
 
-
-        //public async Task  Update(string collectionName, string measuringPointName, List<Dictionary<string, string>> data)
-        //{
-        //    var collection = database.GetCollection<BsonDocument>("measure21.csv");
-
-        //    var filter = Builders<BsonDocument>.Filter.Eq("measuringPointName", "0");
-        //    var updateBuilder = Builders<BsonDocument>.Update;
-
-        //    BsonDocument bsonElements = new BsonDocument();
-        //    //foreach (var items in data)
-        //    //{
-        //    //    foreach (var item in items)
-        //    //    {
-        //    //        bsonElements.Add(item.Key, item.Value);
-        //    //    }
-        //    //}
-        //    List<Dictionary<string, string>> pairs = new List<Dictionary<string, string>>();
-        //    pairs.Add(new Dictionary<string, string>
-        //        {
-        //            {"ControllerName", "mirs" },{"GroupName","cycs"}
-        //        });
-
-        //    foreach (var tiems in pairs)
-        //    {
-        //        foreach (var item in tiems)
-        //        {
-        //            bsonElements.Add(item.Key, item.Value);
-        //        }
-        //    }
-
-        //    var update = updateBuilder.Combine(bsonElements.Select(u => updateBuilder.Set(u.Name, u.Value)));
-        //    var result =await collection.UpdateOneAsync(filter, update);
-                   
-        //}
-
         public async Task Update(string collectionName, string measuringPointName, List<Dictionary<string, string>> data)
         {
             var collection = database.GetCollection<BsonDocument>(collectionName);
@@ -259,8 +209,6 @@ namespace Utilities.MongoDBLib
             var result = collection.UpdateOne(filter, update);
 
         }
-
-
         public bool Delete(string collectionName)
         {
             bool isCollectionExistsBefore = database.ListCollections().ToList().Any(x => x["name"].AsString == collectionName);
