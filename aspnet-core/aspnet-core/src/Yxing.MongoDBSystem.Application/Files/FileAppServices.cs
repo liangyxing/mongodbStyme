@@ -49,9 +49,9 @@ namespace Yxing.MongoDBSystem.Files
             return Mongo.UpdateFileInfo(collectionName, type, describe);
         }
 
-        public bool Upload(IFormFile file, string collectionName, string type, string describe)
+        public async Task<bool> Upload(IFormFile file, string collectionName, string type, string describe)
         {
-            return Mongo.InsertByMongoDB(file, collectionName, type, describe);
+            return await Mongo.InsertByMongoDB(file, collectionName, type, describe);
         }
     }
 }

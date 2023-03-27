@@ -10,7 +10,8 @@ namespace Yxing.MongoDBSystem.Files
 {
     public interface  IFileAppServices: IApplicationService
     {
-        bool Upload(IFormFile file, string collectionName, string type, string describe);
+        Task<bool> Upload(IFormFile file, string collectionName, string type, string describe);
+
         FileStreamResult DownLoad(string collectionName);
         Task Update(string collectionName, string measuringPointName, List<Dictionary<string,string>> data);
         bool Delete(string collectionName);

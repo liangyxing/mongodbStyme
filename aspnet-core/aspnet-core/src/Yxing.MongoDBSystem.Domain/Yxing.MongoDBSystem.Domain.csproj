@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FileInfos\**" />
+    <EmbeddedResource Remove="FileInfos\**" />
+    <None Remove="FileInfos\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Yxing.MongoDBSystem.Domain.Shared\Yxing.MongoDBSystem.Domain.Shared.csproj" />
   </ItemGroup>
 

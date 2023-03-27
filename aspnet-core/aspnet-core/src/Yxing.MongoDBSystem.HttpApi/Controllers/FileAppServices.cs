@@ -51,9 +51,9 @@ namespace Yxing.MongoDBSystem.Controllers
         }
 
         [HttpPost]
-        public bool Upload(IFormFile file, string collectionName, string type, string describe)
+        public async Task<bool> Upload(IFormFile file, string collectionName, string type, string describe)
         {
-            return fileAppServices.Upload(file, collectionName, type, describe);
+            return await fileAppServices.Upload(file, collectionName, type, describe);
         }
     }
 }

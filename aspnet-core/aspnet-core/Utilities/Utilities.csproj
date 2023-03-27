@@ -26,5 +26,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\src\Yxing.MongoDBSystem.Domain\Yxing.MongoDBSystem.Domain.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ConversionToHTML\" />
+	</ItemGroup>
 
 </Project>

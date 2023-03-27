@@ -96,30 +96,34 @@ namespace Utilities.MongoDBLib
 
             MemoryStream stream = new MemoryStream();
 
-            StreamWriter writer = new StreamWriter(stream);
+            StreamWriter writer = new StreamWriter(stream, Encoding.UTF8);
 
             List<BsonDocument> documents = collection.Find(new BsonDocument()).ToList();
             IEnumerable<string> headers = documents.First().Names;
-
+            headers = headers.Where(x => x != "_id");
             // Write headers to CSV file
             writer.WriteLine(string.Join(",", headers));
 
             // Write data rows to CSV file
+            documents.Remove(documents.LastOrDefault());
             foreach (var document in documents)
             {
+                document.Remove("_id");
                 var values = document.Values.Select(v => v.ToString()).ToArray();
+
                 writer.WriteLine(string.Join(",", values));
             }
 
             writer.Flush();
             stream.Position = 0;
             FileStreamResult content = new FileStreamResult(stream, "text/csv");
+        
             content.FileDownloadName = collectionName;
             return content;
 
         }
 
-        public bool InsertByMongoDB(IFormFile file, string collectionName, string type, string describe)
+        public async Task<bool> InsertByMongoDB(IFormFile file, string collectionName, string type, string describe)
         {
             var collection = database.GetCollection<BsonDocument>(collectionName);
             try
@@ -141,10 +145,10 @@ namespace Utilities.MongoDBLib
                         {
                             document.Add(header[i], values[i]);
                         }
-                        collection.InsertOne(new BsonDocument(document));
+                        await collection.InsertOneAsync(new BsonDocument(document));
                     }
                 }
-                collection.InsertOne(new BsonDocument()
+                await collection.InsertOneAsync(new BsonDocument()
                     {
                             { "type",type },
                             {"describe",describe },
